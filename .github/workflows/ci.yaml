@@ -37,9 +37,8 @@ jobs:
         run: go mod verify
         shell: bash
       - name: Run Tests
-        run: go test -coverprofile=coverage.txt -covermode=atomic -coverpkg=./... ./...
+        run: go test -coverprofile=coverage.out -covermode=atomic -coverpkg=./... ./...
       - name: Upload Code Coverage Results
         uses: coverallsapp/github-action@v2
         with:
-          files: coverage.txt
-          format: golang
+          files: coverage.out
