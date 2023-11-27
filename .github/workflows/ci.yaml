@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - labeled
+      - synchronize
+
+  merge_group:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  test-golang:
+    name: Run Golang Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+        with:
+          go-version-file: 'go.mod'
+      - name: Go Mod Tidy
+        run: go mod tidy && git diff --exit-code
+        shell: bash
+      - name: Go Mod Download
+        run: go mod download
+        shell: bash
+      - name: Go Mod Verify
+        run: go mod verify
+        shell: bash
+      - name: Run Tests
+        run: go test -coverprofile=coverage.txt -covermode=atomic -coverpkg=./... ./...
+      - name: Upload Code Coverage Results
+        uses: coverallsapp/github-action@v2
+        with:
+          files: coverage.txt
