@@ -21,8 +21,6 @@ jobs:
     name: Run Golang Tests
     runs-on: ubuntu-latest
     steps:
-      - name: Debug log
-        run: echo ${{ toJSON(github) }}
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v4
         with:
@@ -44,7 +42,7 @@ jobs:
           files: coverage.out
           format: golang
           debug: true
-          git-branch: ${{ github.pull_request.head.ref }}
-          git-commit: ${{ github.pull_request.head.sha }}
-          compare-ref: ${{ github.pull_request.base.ref }}
-          compare-sha: ${{ github.pull_request.base.sha }}
+          git-branch: ${{ github.event.pull_request.head.ref }}
+          git-commit: ${{ github.event.pull_request.head.sha }}
+          compare-ref: ${{ github.event.pull_request.base.ref }}
+          compare-sha: ${{ github.event.pull_request.base.sha }}
