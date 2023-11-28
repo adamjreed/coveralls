@@ -12,8 +12,6 @@ on:
       - labeled
       - synchronize
 
-  merge_group:
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
@@ -43,3 +41,8 @@ jobs:
         with:
           files: coverage.out
           format: golang
+          debug: true
+          git-branch: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || '' }}
+          git-commit: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || '' }}
+          compare-ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref || '' }}
+          compare-sha: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || '' }}
