@@ -29,3 +29,28 @@ func TestEven(t *testing.T) {
 		})
 	}
 }
+
+func TestOdd(t *testing.T) {
+	cases := []struct {
+		name  string
+		input int64
+		pass  bool
+	}{
+		{
+			"odd number",
+			3,
+			true,
+		},
+		{
+			"even number",
+			2,
+			false,
+		},
+	}
+
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			assert.Equal(t, c.pass, Odd(c.input))
+		})
+	}
+}
