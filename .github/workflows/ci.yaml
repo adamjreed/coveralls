@@ -1,18 +1,6 @@
 name: CI
 
-on:
-  push:
-    branches:
-      - main
-
-  pull_request:
-    types:
-      - opened
-      - reopened
-      - labeled
-      - synchronize
-
-  merge_group:
+on: ['push', 'pull_request']
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
