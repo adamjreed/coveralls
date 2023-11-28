@@ -1,4 +1,4 @@
-module coveralls
+module github.com/syndio/coveralls
 
 go 1.20
 
