@@ -1,6 +1,16 @@
 name: CI
 
-on: ['push']
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - labeled
+      - synchronize
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -32,3 +42,7 @@ jobs:
           files: coverage.out
           format: golang
           debug: true
+          git-branch: ${{ github.pull_request.head.ref }}
+          git-commit: ${{ github.pull_request.head.sha }}
+          compare-ref: ${{ github.pull_request.base.ref }}
+          compare-sha: ${{ github.pull_request.base.sha }}
